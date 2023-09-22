@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Pais extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['pais'];
+
+    public function estados()
+    {
+        return $this->hasMany(Estado::class);
+    }
 }

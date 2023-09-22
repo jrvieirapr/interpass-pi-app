@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Pais;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class EstadoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'estado' => $this->faker->state,
+            'pais_id' => Pais::factory()->create()->id,
         ];
     }
 }
