@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::middleware('paises')->group(function() {
+    Route::get('/', [PaisController::class, 'index']);
+    Route::post('/', [PaisController::class, 'store']);
+    Route::get('/{id}', [PaisController::class, 'show']);
+    Route::put('/{id}', [PaisController::class, 'update']);
+    Route::delete('/{id}', [PaisController::class, 'destroy']);
+});
+
