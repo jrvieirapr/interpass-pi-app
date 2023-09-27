@@ -11,7 +11,7 @@ class StoreEstadoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreEstadoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'estado' => 'required|string|min:2',
+            'pais_id' => 'required|exists:paises,id',
         ];
     }
 }

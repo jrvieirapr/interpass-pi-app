@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 //Routes Clientes
 Route::middleware('api')->prefix('clientes')->group(function () {
     Route::get('/', [ClienteController::class, 'index']);
@@ -27,3 +28,14 @@ Route::middleware('api')->prefix('clientes')->group(function () {
     Route::put('/{cliente}', [ClienteController::class, 'update']);
     Route::delete('/{cliente}', [ClienteController::class, 'destroy']);
 });
+
+
+Route::middleware('paises')->group(function() {
+    Route::get('/', [PaisController::class, 'index']);
+    Route::post('/', [PaisController::class, 'store']);
+    Route::get('/{id}', [PaisController::class, 'show']);
+    Route::put('/{id}', [PaisController::class, 'update']);
+    Route::delete('/{id}', [PaisController::class, 'destroy']);
+});
+
+

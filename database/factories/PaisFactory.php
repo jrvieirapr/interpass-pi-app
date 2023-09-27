@@ -17,7 +17,8 @@ class PaisFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'pais' => $this->faker->state,
+            
         ];
     }
 }

@@ -13,54 +13,41 @@ class PaisController extends Controller
      */
     public function index()
     {
-        //
+        $paises = Pais::all();
+        return response()->json(['data' => $paises]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(StorePaisRequest $request)
     {
-        //
+        $pais = Pais::create($request->validated());
+        return response()->json(['data' => $pais]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pais $pais)
+    public function show($id)
     {
-        //
+        $pais = Pais::findOrFail($id);
+        return response()->json(['data' => $pais]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Pais $pais)
+    
+    public function update(UpdatePaisRequest $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaisRequest $request, Pais $pais)
-    {
-        //
+        $pais = Pais::findOrFail($id);
+        $pais->update($request->validated());
+        return response()->json(['data' => $pais]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pais $pais)
+    public function destroy($id)
     {
-        //
+        $pais = Pais::findOrFail($id);
+        $pais->delete();
+        return response()->json(['message' => 'Pais deletado com sucesso.']);
     }
 }
