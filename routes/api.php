@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+//Routes Clientes
+Route::middleware('api')->prefix('clientes')->group(function () {
+    Route::get('/', [ClienteController::class, 'index']);
+    Route::post('/', [ClienteController::class, 'store']);
+    Route::get('/{cliente}', [ClienteController::class, 'show']);
+    Route::put('/{cliente}', [ClienteController::class, 'update']);
+    Route::delete('/{cliente}', [ClienteController::class, 'destroy']);
+});
+
+
 Route::middleware('paises')->group(function() {
     Route::get('/', [PaisController::class, 'index']);
     Route::post('/', [PaisController::class, 'store']);
@@ -26,4 +37,5 @@ Route::middleware('paises')->group(function() {
     Route::put('/{id}', [PaisController::class, 'update']);
     Route::delete('/{id}', [PaisController::class, 'destroy']);
 });
+
 

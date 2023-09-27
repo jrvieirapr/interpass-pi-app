@@ -9,58 +9,79 @@ use App\Http\Requests\UpdateClienteRequest;
 class ClienteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * INDEX
      */
     public function index()
     {
-        //
+        //Pegar a lista do banco
+        $clientes = Cliente::all();
+
+        //Retornar lista em formato json
+        return response()->json(['data' => $clientes]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * STORE
      */
     public function store(StoreClienteRequest $request)
     {
-        //
+        // Crie um novo cliente
+        $cliente = Cliente::create($request->all());
+
+        // Retorne o codigo 201
+        return response()->json($cliente, 201);
     }
 
     /**
-     * Display the specified resource.
+     * SHOW
      */
-    public function show(Cliente $cliente)
+    public function show($id)
     {
-        //
+        // procure o cliente por id
+        $cliente = Cliente::find($id);
+
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        }
+
+        return response()->json($cliente);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * UPDATE
      */
-    public function edit(Cliente $cliente)
+    public function update(UpdateClienteRequest $request, $id)
     {
-        //
+        // Procure o cliente pelo id
+        $cliente = Cliente::find($id);
+
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        }
+
+        // Faça o update do cliente
+        $cliente->update($request->all());
+
+        // Retorne o cliente
+        return response()->json($cliente);
     }
 
     /**
-     * Update the specified resource in storage.
+     * DESTROY
      */
-    public function update(UpdateClienteRequest $request, Cliente $cliente)
+    public function destroy(Cliente $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cliente $cliente)
-    {
-        //
-    }
+        // Encontre um cliente pelo id
+        $cliente = Cliente::find($id);
+ 
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado!'], 404);
+        }  
+ 
+        //Se tiver dependentes deve retornar erro
+  
+        $cliente->delete();
+ 
+        return response()->json(['message' => 'Cliente deletado com sucesso!'], 200);
+     }
 }
