@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EventoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,15 @@ Route::middleware('paises')->group(function() {
     Route::get('/{id}', [PaisController::class, 'show']);
     Route::put('/{id}', [PaisController::class, 'update']);
     Route::delete('/{id}', [PaisController::class, 'destroy']);
+});
+
+//Routes Eventos
+Route::middleware('api')->prefix('eventos')->group(function () {
+    Route::get('/', [EventoController::class, 'index']);
+    Route::post('/', [EventoController::class, 'store']);
+    Route::get('/{evento}', [EventoController::class, 'show']);
+    Route::put('/{evento}', [EventoController::class, 'update']);
+    Route::delete('/{evento}', [EventoController::class, 'destroy']);
 });
 
 

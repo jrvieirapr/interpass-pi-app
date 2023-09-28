@@ -9,58 +9,79 @@ use App\Http\Requests\UpdateEventoRequest;
 class EventoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * INDEX
      */
     public function index()
     {
-        //
+        //Pegar a lista do banco
+        $eventos = Evento::all();
+
+        //Retornar lista em formato json
+        return response()->json(['data' => $eventos]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * STORE
      */
     public function store(StoreEventoRequest $request)
     {
-        //
+        // Crie um novo evento
+        $evento = Evento::create($request->all());
+
+        // Retorne o codigo 201
+        return response()->json($evento, 201);
     }
 
     /**
-     * Display the specified resource.
+     * SHOW
      */
-    public function show(Evento $evento)
+    public function show($id)
     {
-        //
+        // procure o evento por id
+        $evento = Evento::find($id);
+
+        if (!$evento) {
+            return response()->json(['message' => 'Evento não encontrado'], 404);
+        }
+
+        return response()->json($evento);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * UPDATE
      */
-    public function edit(Evento $evento)
+    public function update(UpdateEventoRequest $request, $id)
     {
-        //
+        // Procure o evento pelo id
+        $evento = Evento::find($id);
+
+        if (!$evento) {
+            return response()->json(['message' => 'Evento não encontrado'], 404);
+        }
+
+        // Faça o update do evento
+        $evento->update($request->all());
+
+        // Retorne o evento
+        return response()->json($evento);
     }
 
     /**
-     * Update the specified resource in storage.
+     * DESTROY
      */
-    public function update(UpdateEventoRequest $request, Evento $evento)
+    public function destroy(Evento $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Evento $evento)
-    {
-        //
-    }
+        // Encontre um evento pelo id
+        $evento = Evento::find($id);
+ 
+        if (!$evento) {
+            return response()->json(['message' => 'Evento não encontrado!'], 404);
+        }  
+ 
+        //Se tiver dependentes deve retornar erro
+  
+        $evento->delete();
+ 
+        return response()->json(['message' => 'Evento deletado com sucesso!'], 200);
+     }
 }
