@@ -69,7 +69,7 @@ class EventoController extends Controller
     /**
      * DESTROY
      */
-    public function destroy(Evento $id)
+    public function destroy($id)
     {
         // Encontre um evento pelo id
         $evento = Evento::find($id);

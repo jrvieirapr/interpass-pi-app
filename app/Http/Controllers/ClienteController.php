@@ -69,7 +69,7 @@ class ClienteController extends Controller
     /**
      * DESTROY
      */
-    public function destroy(Cliente $id)
+    public function destroy($id)
     {
         // Encontre um cliente pelo id
         $cliente = Cliente::find($id);
@@ -79,6 +79,8 @@ class ClienteController extends Controller
         }  
  
         //Se tiver dependentes deve retornar erro
+
+
   
         $cliente->delete();
  
