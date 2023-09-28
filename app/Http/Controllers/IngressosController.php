@@ -9,58 +9,81 @@ use App\Http\Requests\UpdateIngressosRequest;
 class IngressosController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * INDEX
      */
     public function index()
     {
-        //
+        //Pegar a lista do banco
+        $ingressos = Ingressos::all();
+
+        //Retornar lista em formato json
+        return response()->json(['data' => $ingressos]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * STORE
      */
     public function store(StoreIngressosRequest $request)
     {
-        //
+        // Crie um novo ingresso
+        $ingresso = Ingressos::create($request->all());
+
+        // Retorne o codigo 201
+        return response()->json($ingresso, 201);
     }
 
     /**
-     * Display the specified resource.
+     * SHOW
      */
-    public function show(Ingressos $ingressos)
+    public function show($id)
     {
-        //
+        // procure o ingresso por id
+        $ingresso = Ingressos::find($id);
+
+        if (!$ingresso) {
+            return response()->json(['message' => 'Ingressos não encontrado'], 404);
+        }
+
+        return response()->json($ingresso);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * UPDATE
      */
-    public function edit(Ingressos $ingressos)
+    public function update(UpdateIngressosRequest $request, $id)
     {
-        //
+        // Procure o ingresso pelo id
+        $ingresso = Ingressos::find($id);
+
+        if (!$ingresso) {
+            return response()->json(['message' => 'Ingressos não encontrado'], 404);
+        }
+
+        // Faça o update do ingresso
+        $ingresso->update($request->all());
+
+        // Retorne o ingresso
+        return response()->json($ingresso);
     }
 
     /**
-     * Update the specified resource in storage.
+     * DESTROY
      */
-    public function update(UpdateIngressosRequest $request, Ingressos $ingressos)
+    public function destroy($id)
     {
-        //
-    }
+        // Encontre um ingresso pelo id
+        $ingresso = Ingressos::find($id);
+ 
+        if (!$ingresso) {
+            return response()->json(['message' => 'Ingressos não encontrado!'], 404);
+        }  
+ 
+        //Se tiver dependentes deve retornar erro
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Ingressos $ingressos)
-    {
-        //
-    }
+
+  
+        $ingresso->delete();
+ 
+        return response()->json(['message' => 'Ingressos deletado com sucesso!'], 200);
+     }
 }

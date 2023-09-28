@@ -263,4 +263,45 @@ class ClienteTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['rgIE']);
     }
+
+                /**
+     * Teste de deletar com sucesso
+     *
+     * @return void
+     */
+    public function testDeleteCliente()
+    {
+        // Criar cliente fake
+        $cliente = Cliente::factory()->create();
+      
+
+        // // enviar requisição para Delete
+        $response = $this->deleteJson('/api/clientes/' . $cliente->id);
+
+        // Verificar o Delete
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Cliente deletado com sucesso!'
+            ]);
+
+        //Verifique se foi deletado do banco
+        $this->assertDatabaseMissing('clientes', ['id' => $cliente->id]);
+    }
+
+        /**
+     * Teste remoção de registro inexistente
+     *
+     * @return void
+     */
+    public function testDeleteClienteNaoExistente()
+    {
+        // enviar requisição para Delete
+        $response = $this->deleteJson('/api/clientes/999');
+
+        // Verifique a resposta
+        $response->assertStatus(404)
+            ->assertJson([
+                'message' => 'Cliente não encontrado!'
+            ]);
+    }
 }

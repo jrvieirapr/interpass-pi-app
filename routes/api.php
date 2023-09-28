@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\IngressosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,15 @@ Route::middleware('api')->prefix('eventos')->group(function () {
     Route::get('/{evento}', [EventoController::class, 'show']);
     Route::put('/{evento}', [EventoController::class, 'update']);
     Route::delete('/{evento}', [EventoController::class, 'destroy']);
+});
+
+//Routes Eventos
+Route::middleware('api')->prefix('ingressos')->group(function () {
+    Route::get('/', [IngressosController::class, 'index']);
+    Route::post('/', [IngressosController::class, 'store']);
+    Route::get('/{ingresso}', [IngressosController::class, 'show']);
+    Route::put('/{ingresso}', [IngressosController::class, 'update']);
+    Route::delete('/{ingresso}', [IngressosController::class, 'destroy']);
 });
 
 
