@@ -23,7 +23,7 @@ class ClienteFactory extends Factory
             'sexo' => $sexo[$this->faker->numberBetween($int = 0, $int2 = 1)],
             'rgIE' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
             'cpfCNPJ' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
-            'email' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+            'email' => "" . $this->faker->email(),
             'telefone' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
         ];
     }
