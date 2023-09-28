@@ -5,62 +5,51 @@ namespace App\Http\Controllers;
 use App\Models\Cidade;
 use App\Http\Requests\StoreCidadeRequest;
 use App\Http\Requests\UpdateCidadeRequest;
+use App\Models\Estado;
+use App\Models\Pais;
 
 class CidadeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Pais $pais, Estado $estado)
     {
-        //
+        $cidades = $estado->cidades()->get();
+        return response()->json(['data' => $cidades]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    
+    public function store(StoreCidadeRequest $request, Pais $pais, Estado $estado)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCidadeRequest $request)
-    {
-        //
+        $cidade = $estado->cidades()->create($request->validated());
+        return response()->json(['data' => $cidade]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Cidade $cidade)
+    public function show(Pais $pais, Estado $estado, $id)
     {
-        //
+        $cidade = $estado->cidades()->findOrFail($id);
+        return response()->json(['data' => $cidade]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cidade $cidade)
+    
+    public function update(UpdateCidadeRequest $request, Pais $pais, Estado $estado, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCidadeRequest $request, Cidade $cidade)
-    {
-        //
+        $cidade = $estado->cidades()->findOrFail($id);
+        $cidade->update($request->validated());
+        return response()->json(['data' => $cidade]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cidade $cidade)
+    public function destroy(Pais $pais, Estado $estado, $id)
     {
-        //
+        $cidade = $estado->cidades()->findOrFail($id);
+        $cidade->delete();
+        return response()->json(['message' => 'Cidade deletada com sucesso.']);
     }
 }

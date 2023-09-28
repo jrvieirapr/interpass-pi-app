@@ -22,7 +22,8 @@ class UpdateEstadoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nome' => 'required|string|max:255',
+            'pais_id' => 'required|exists:paises,id',
         ];
     }
 }
