@@ -18,7 +18,7 @@ class EstadoFactory extends Factory
     public function definition(): array
     {
         return [
-            'estado' => $this->faker->state,
+            'nome' => $this->faker->state,
             'pais_id' => Pais::factory()->create()->id,
         ];
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\EstadoController;
+use App\Http\Controllers\PaisController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,28 +22,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Pais
-Route::middleware('paises')->group(function() {
+Route::middleware('api')->prefix('paises')->group(function() {
     Route::get('/', [PaisController::class, 'index']);
     Route::post('/', [PaisController::class, 'store']);
-    Route::get('/{id}', [PaisController::class, 'show']);
-    Route::put('/{id}', [PaisController::class, 'update']);
-    Route::delete('/{id}', [PaisController::class, 'destroy']);
+    Route::get('/{pais}', [PaisController::class, 'show']);
+    Route::put('/{pais}', [PaisController::class, 'update']);
+    Route::delete('/{pais}', [PaisController::class, 'destroy']);
 });
 
 // Estado
-Route::middleware('estados')->group(function() {
+Route::middleware('api')->prefix('estados')->group(function() {
     Route::get('/', [EstadoController::class, 'index']);
     Route::post('/', [EstadoController::class, 'store']);
-    Route::get('/{id}', [EstadoController::class, 'show']);
-    Route::put('/{id}', [EstadoController::class, 'update']);
-    Route::delete('/{id}', [EstadoController::class, 'destroy']);
+    Route::get('/{estado}', [EstadoController::class, 'show']);
+    Route::put('/{estado}', [EstadoController::class, 'update']);
+    Route::delete('/{estado}', [EstadoController::class, 'destroy']);
 });
 
 // Cidade
-Route::middleware('cidades')->group(function() {
+Route::middleware('api')->prefix('cidades')->group(function() {
     Route::get('/', [CidadeController::class, 'index']);
     Route::post('/', [CidadeController::class, 'store']);
-    Route::get('/{id}', [CidadeController::class, 'show']);
-    Route::put('/{id}', [CidadeController::class, 'update']);
-    Route::delete('/{id}', [CidadeController::class, 'destroy']);
+    Route::get('/{cidade}', [CidadeController::class, 'show']);
+    Route::put('/{cidade}', [CidadeController::class, 'update']);
+    Route::delete('/{cidade}', [CidadeController::class, 'destroy']);
 });
