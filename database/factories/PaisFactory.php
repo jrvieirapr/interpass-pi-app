@@ -14,11 +14,12 @@ class PaisFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
         return [
-            'pais' => $this->faker->state,
-            
+            'nome' =>"". $this->faker->word." " .
+            $this->faker->numberBetween($int1 = 0, $int2 = 99999),        
         ];
     }
 }

@@ -22,7 +22,8 @@ class UpdateCidadeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nome' => 'required|string|max:255',
+            'estado_id' => 'required|exists:estados,id',
         ];
     }
 }

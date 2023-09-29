@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Estado;
 use App\Http\Requests\StoreEstadoRequest;
 use App\Http\Requests\UpdateEstadoRequest;
+use App\Models\Pais;
 
 class EstadoController extends Controller
 {
@@ -17,51 +18,33 @@ class EstadoController extends Controller
         return response()->json(['data' => $estados]); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    
+    public function store(StoreEstadoRequest $request, Pais $pais)
     {
-        
+        $estado = $pais->estados()->create($request->validated());
+        return response()->json(['data' => $estado]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEstadoRequest $request)
+    
+    public function show(Pais $pais, $id)
     {
-        //
+        $estado = $pais->estados()->findOrFail($id);
+        return response()->json(['data' => $estado]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Estado $estado)
+    
+    public function update(UpdateEstadoRequest $request, Pais $pais, $id)
     {
-        //
+        $estado = $pais->estados()->findOrFail($id);
+        $estado->update($request->validated());
+        return response()->json(['data' => $estado]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Estado $estado)
+    
+    public function destroy(Pais $pais, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEstadoRequest $request, Estado $estado)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Estado $estado)
-    {
-        //
+        $estado = $pais->estados()->findOrFail($id);
+        $estado->delete();
+        return response()->json(['message' => 'Estado deletado com sucesso.']);
     }
 }

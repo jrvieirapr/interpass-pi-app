@@ -9,7 +9,9 @@ class Pais extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['pais'];
+    protected $fillable = ['nome'];
+
+    protected $table='paises';
 
     protected $table='paises';
 
