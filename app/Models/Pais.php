@@ -13,6 +13,8 @@ class Pais extends Model
 
     protected $table='paises';
 
+    protected $table='paises';
+
     public function estados()
     {
         return $this->hasMany(Estado::class);

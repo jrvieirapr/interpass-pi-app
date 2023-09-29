@@ -17,7 +17,10 @@ class EventoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nomeEvento' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+            'dataEvento' => $this->faker->date(),
+            'localEvento' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+            'qtIngresso' => $this->faker->numberBetween($int = 0, $int2 = 99999),
         ];
     }
 }

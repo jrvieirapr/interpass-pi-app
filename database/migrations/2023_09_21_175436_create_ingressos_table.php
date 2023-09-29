@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('ingressos', function (Blueprint $table) {
             $table->id();
+            $table->string('chaveIngresso');
+            $table->unsignedBigInteger('evento_id');
+            $table->foreign('evento_id')->references('id')->on('eventos');
+            $table->date('dataEmissao');
+            $table->unsignedBigInteger('cliente_id');
+            $table->foreign('cliente_id')->references('id')->on('clientes');
+            $table->string('metodoPagamento');
+            $table->double('valorCompra');
             $table->timestamps();
         });
     }
