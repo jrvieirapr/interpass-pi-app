@@ -42,15 +42,6 @@ Route::middleware('api')->prefix('clientes')->group(function () {
 });
 
 
-Route::middleware('paises')->group(function () {
-
-    Route::get('/', [PaisController::class, 'index']);
-    Route::post('/', [PaisController::class, 'store']);
-    Route::get('/{pais}', [PaisController::class, 'show']);
-    Route::put('/{pais}', [PaisController::class, 'update']);
-    Route::delete('/{pais}', [PaisController::class, 'destroy']);
-});
-
 // Estado
 Route::middleware('api')->prefix('estados')->group(function () {
     Route::get('/', [EstadoController::class, 'index']);

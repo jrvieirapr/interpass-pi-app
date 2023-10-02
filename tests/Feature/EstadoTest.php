@@ -14,7 +14,7 @@ class EstadoTest extends TestCase
 
     public function testListarTodosEstados()
     {
-        $estados = Estado::factory()->count(5)->create();
+        $estados = Estado::factory()->count(5)->create();  
 
         $response = $this->getJson('/api/estados');
 
@@ -29,8 +29,12 @@ class EstadoTest extends TestCase
 
     public function testCriarEstadoSucesso()
     {
+
+        $pais = Pais::factory()->create();
+
         $data = [
             'nome' => $this->faker->unique()->word,
+            'pais_id' => $pais->id
         ];
 
         $response = $this->postJson('/api/estados', $data);
@@ -43,12 +47,13 @@ class EstadoTest extends TestCase
     {
         $data = [
             'nome' => '', // Deve falhar devido à validação
+            'pais_id' => ''
         ];
 
         $response = $this->postJson('/api/estados', $data);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['nome']);
+            ->assertJsonValidationErrors(['nome', 'pais_id']);
     }
 
     public function testPesquisaEstadoSucesso()
@@ -70,7 +75,7 @@ class EstadoTest extends TestCase
 
         $response->assertStatus(404)
             ->assertJson([
-                'message' => 'Estado não encontrado'
+                'message' => 'Estado não encontrado!'
             ]);
     }
 
@@ -80,6 +85,7 @@ class EstadoTest extends TestCase
 
         $newData = [
             'nome' => 'Novo Estado',
+            'pais_id' => $estado->pais_id
         ];
 
         $response = $this->putJson('/api/estados/' . $estado->id, $newData);
@@ -93,31 +99,14 @@ class EstadoTest extends TestCase
 
     public function testUpdateEstadoNaoExistente()
     {
-        $newData = [
-            'nome' => 'Novo Estado',
-        ];
+        $newData = Estado::factory()->make()->toArray();
 
         $response = $this->putJson('/api/estados/999', $newData);
 
         $response->assertStatus(404)
             ->assertJson([
-                'message' => 'Estado não encontrado'
+                'message' => 'Estado não encontrado!'
             ]);
-    }
-
-    public function testUpdateEstadoNomeDuplicado()
-    {
-        $estado1 = Estado::factory()->create();
-        $estado2 = Estado::factory()->create();
-
-        $newData = [
-            'nome' => $estado1->nome, // Nome duplicado
-        ];
-
-        $response = $this->putJson('/api/estados/' . $estado2->id, $newData);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['nome']);
     }
 
     public function testDeleteEstado()

@@ -22,7 +22,7 @@ class StoreEstadoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'estado' => 'required|string|min:2',
+            'nome' => 'required|string|min:2',
             'pais_id' => 'required|exists:paises,id',
         ];
     }
