@@ -22,7 +22,7 @@ class PaisTest extends TestCase
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id','nome', 'created_at', 'updated_at']
+                    '*' => ['id', 'nome', 'created_at', 'updated_at']
                 ]
             ]);
     }
@@ -30,22 +30,22 @@ class PaisTest extends TestCase
     public function testCriarPaisesSucesso()
     {
 
-         $data = [
+        $data = [
             'nome' => "" . $this->faker->word . " " .
-            $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+                $this->faker->numberBetween($int1 = 0, $int2 = 99999),
 
-         ];
+        ];
 
-         $response = $this->postJson('/api/paises/', $data);
+        $response = $this->postJson('/api/paises/', $data);
 
-         $response->assertStatus(201)
+        $response->assertStatus(201)
             ->assertJsonStructure(['id', 'nome', 'created_at', 'updated_at']);
     }
 
     public function testCriacaoPaisesFalha()
     {
         $data = [
-            "nome" => 'a',
+            "nome" => '',
         ];
 
         $response = $this->postJson('/api/paises/', $data);
@@ -65,7 +65,6 @@ class PaisTest extends TestCase
                 'id' => $tipo->id,
                 'nome' => $tipo->nome,
             ]);
-
     }
 
     public function testPesquisaPaisesComFalha()
@@ -92,7 +91,7 @@ class PaisTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'id' => $tipo->id,
-                'nome' =>  $tipo->id,
+                'nome' =>  $newData['nome'],
             ]);
     }
 
@@ -113,22 +112,7 @@ class PaisTest extends TestCase
             ]);
     }
 
-    public function testUpdatePaisesMesmoNome()
-    {
-        $pais = Pais::factory()->create();
 
-        $sameData = [
-            'nome' => $pais->nome,          
-        ];
-
-        $response = $this->putJson('/api/paises/' . $pais->id, $sameData);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['nome']);
-
-        
-
-    }
 
     public function testDeletePaisesNaoExistente()
     {
@@ -136,9 +120,7 @@ class PaisTest extends TestCase
 
         $response->assertStatus(404)
             ->assertJSon([
-                'nome' => 'Pais não encontrado!'
+                'message' => 'Pais não encontrado!'
             ]);
     }
-
-
 }

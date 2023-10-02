@@ -17,11 +17,11 @@ class PaisController extends Controller
         return response()->json(['data' => $paises]);
     }
 
-    
+
     public function store(StorePaisRequest $request)
     {
         $pais = Pais::create($request->validated());
-        return response()->json(['data' => $pais]);
+        return response()->json($pais, 201);
     }
 
     /**
@@ -29,16 +29,29 @@ class PaisController extends Controller
      */
     public function show($id)
     {
-        $pais = Pais::findOrFail($id);
-        return response()->json(['data' => $pais]);
+        $pais = Pais::find($id);
+
+        if (!$pais) {
+            return response()->json(['message' => 'Pais não encontrado'], 404);
+        }
+
+        return response()->json($pais);
     }
 
-    
+
     public function update(UpdatePaisRequest $request, $id)
     {
-        $pais = Pais::findOrFail($id);
-        $pais->update($request->validated());
-        return response()->json(['data' => $pais]);
+        $pais = Pais::find($id);
+
+        if (!$pais) {
+            return response()->json(['message' => 'Pais não encontrado'], 404);
+        }
+
+        $pais->update([
+            'nome' => $request->input('nome'),
+        ]);
+
+        return response()->json($pais);
     }
 
     /**
@@ -46,8 +59,14 @@ class PaisController extends Controller
      */
     public function destroy($id)
     {
-        $pais = Pais::findOrFail($id);
+        $pais = Pais::find($id);
+
+        if (!$pais) {
+            return response()->json(['message' => 'Pais não encontrado!'], 404);
+        }
+
         $pais->delete();
-        return response()->json(['message' => 'Pais deletado com sucesso.']);
+
+        return response()->json(['message' => 'Pais deletado com sucesso']);
     }
 }

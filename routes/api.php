@@ -22,12 +22,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Routes Paises
+Route::middleware('api')->prefix('paises')->group(function () {
+    Route::get('/', [PaisController::class, 'index']);
+    Route::post('/', [PaisController::class, 'store']);
+    Route::get('/{pais}', [PaisController::class, 'show']);
+    Route::put('/{pais}', [PaisController::class, 'update']);
+    Route::delete('/{pais}', [PaisController::class, 'destroy']);
 });
 
-
-Route::middleware('api')->prefix('paises')->group(function() {
 
 //Routes Clientes
 Route::middleware('api')->prefix('clientes')->group(function () {
@@ -39,7 +42,7 @@ Route::middleware('api')->prefix('clientes')->group(function () {
 });
 
 
-Route::middleware('paises')->group(function() {
+Route::middleware('paises')->group(function () {
 
     Route::get('/', [PaisController::class, 'index']);
     Route::post('/', [PaisController::class, 'store']);
@@ -49,7 +52,7 @@ Route::middleware('paises')->group(function() {
 });
 
 // Estado
-Route::middleware('api')->prefix('estados')->group(function() {
+Route::middleware('api')->prefix('estados')->group(function () {
     Route::get('/', [EstadoController::class, 'index']);
     Route::post('/', [EstadoController::class, 'store']);
     Route::get('/{estado}', [EstadoController::class, 'show']);
@@ -59,7 +62,7 @@ Route::middleware('api')->prefix('estados')->group(function() {
 
 
 // Cidade
-Route::middleware('api')->prefix('cidades')->group(function() {
+Route::middleware('api')->prefix('cidades')->group(function () {
     Route::get('/', [CidadeController::class, 'index']);
     Route::post('/', [CidadeController::class, 'store']);
     Route::get('/{cidade}', [CidadeController::class, 'show']);
@@ -84,6 +87,3 @@ Route::middleware('api')->prefix('ingressos')->group(function () {
     Route::put('/{ingresso}', [IngressosController::class, 'update']);
     Route::delete('/{ingresso}', [IngressosController::class, 'destroy']);
 });
-
-
-

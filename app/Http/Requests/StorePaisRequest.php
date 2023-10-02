@@ -22,7 +22,7 @@ class StorePaisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required|string|max:255',
+            'nome' => 'required|string|min:2|max:255|unique:paises,nome',
         ];
     }
 }

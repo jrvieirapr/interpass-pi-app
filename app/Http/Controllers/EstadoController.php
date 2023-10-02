@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Estado;
 use App\Http\Requests\StoreEstadoRequest;
 use App\Http\Requests\UpdateEstadoRequest;
-use App\Models\Pais;
+use Illuminate\Http\JsonResponse;
 
 class EstadoController extends Controller
 {
@@ -15,36 +15,67 @@ class EstadoController extends Controller
     public function index()
     {
         $estados = Estado::all();
-        return response()->json(['data' => $estados]); 
+
+        dd($estados);
+
+        return response()->json(['data' => $estados]);
     }
 
-    
-    public function store(StoreEstadoRequest $request, Pais $pais)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreEstadoRequest $request): JsonResponse
     {
-        $estado = $pais->estados()->create($request->validated());
-        return response()->json(['data' => $estado]);
+        $estado = Estado::create($request->all());
+
+        return response()->json($estado, 201);
     }
 
-    
-    public function show(Pais $pais, $id)
+    /**
+     * Display the specified resource.
+     */
+    public function show($id): JsonResponse
     {
-        $estado = $pais->estados()->findOrFail($id);
-        return response()->json(['data' => $estado]);
+        $estado = Estado::find($id);
+
+        if (!$estado) {
+            return response()->json(['message' => 'Estado não encontrado!'], 404);
+        }
+
+        return response()->json($estado);
     }
 
-    
-    public function update(UpdateEstadoRequest $request, Pais $pais, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateEstadoRequest $request, $id): JsonResponse
     {
-        $estado = $pais->estados()->findOrFail($id);
-        $estado->update($request->validated());
-        return response()->json(['data' => $estado]);
+        $estado = Estado::find($id);
+
+        if (!$estado) {
+            return response()->json(['message' => 'Estado não encontrado!'], 404);
+        }
+
+        $estado->update($request->all());
+
+        return response()->json($estado);
     }
 
-    
-    public function destroy(Pais $pais, $id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id): JsonResponse
     {
-        $estado = $pais->estados()->findOrFail($id);
+        $estado = Estado::find($id);
+
+        if (!$estado) {
+            return response()->json(['message' => 'Estado não encontrado!'], 404);
+        }
+
+        // Verifique se há dependências antes de deletar (se necessário)
+
         $estado->delete();
-        return response()->json(['message' => 'Estado deletado com sucesso.']);
+
+        return response()->json(['message' => 'Estado deletado com sucesso!'], 200);
     }
 }

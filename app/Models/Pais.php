@@ -11,9 +11,7 @@ class Pais extends Model
 
     protected $fillable = ['nome'];
 
-    protected $table='paises';
-
-    protected $table='paises';
+    protected $table = 'paises';
 
     public function estados()
     {
