@@ -13,43 +13,63 @@ class CidadeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Pais $pais, Estado $estado)
+    public function index()
     {
-        $cidades = $estado->cidades()->get();
+        $cidades = Cidade::all();
         return response()->json(['data' => $cidades]);
     }
 
     
-    public function store(StoreCidadeRequest $request, Pais $pais, Estado $estado)
+    public function store(StoreCidadeRequest $request)
     {
-        $cidade = $estado->cidades()->create($request->validated());
-        return response()->json(['data' => $cidade]);
+        $cidade = Cidade::create($request->all());
+
+        return response()->json($cidade, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pais $pais, Estado $estado, $id)
+    public function show($id)
     {
-        $cidade = $estado->cidades()->findOrFail($id);
-        return response()->json(['data' => $cidade]);
+        $cidade = Cidade::find($id);
+
+        if (!$cidade) {
+            return response()->json(['message' => 'Cidade não encontrada!'], 404);
+        }
+
+        return response()->json($cidade);
     }
 
     
-    public function update(UpdateCidadeRequest $request, Pais $pais, Estado $estado, $id)
+    public function update(UpdateCidadeRequest $request,  $id)
     {
-        $cidade = $estado->cidades()->findOrFail($id);
-        $cidade->update($request->validated());
-        return response()->json(['data' => $cidade]);
+        $cidade = Cidade::find($id);
+
+        if (!$cidade) {
+            return response()->json(['message' => 'Cidade não encontrada!'], 404);
+        }
+
+        $cidade->update($request->all());
+
+        return response()->json($cidade);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pais $pais, Estado $estado, $id)
+    public function destroy($id)
     {
-        $cidade = $estado->cidades()->findOrFail($id);
+        $cidade = Cidade::find($id);
+
+        if (!$cidade) {
+            return response()->json(['message' => 'Cidade não encontrada!'], 404);
+        }
+
+        // Verifique se há dependências antes de deletar (se necessário)
+
         $cidade->delete();
-        return response()->json(['message' => 'Cidade deletada com sucesso.']);
+
+        return response()->json(['message' => 'Cidade deletada com sucesso!'], 200);
     }
 }

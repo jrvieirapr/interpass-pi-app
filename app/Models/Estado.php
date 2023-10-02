@@ -12,13 +12,13 @@ class Estado extends Model
 
     protected $fillable = ['nome', 'pais_id'];
 
-    // public function pais()
-    // {
-    //     return $this->belongsTo(Pais::class, 'pais_id');
-    // }
+    public function pais()
+    {
+        return $this->belongsTo(Pais::class, 'pais_id');
+    }
 
-    // public function cidades()
-    // {
-    //     return $this->hasMany(Cidade::class);
-    // }
+    public function cidades()
+    {
+        return $this->hasMany(Cidade::class);
+    }
 }

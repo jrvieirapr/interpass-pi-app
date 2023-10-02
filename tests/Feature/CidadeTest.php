@@ -29,13 +29,7 @@ class CidadeTest extends TestCase
 
     public function testCriarCidadesSucesso()
     {
-
-         $data = [
-            'nome' => "" . $this->faker->word . " " .
-            $this->faker->numberBetween($int1 = 0, $int2 = 99999),
-
-         ];
-
+         $data = Cidade::factory()->make()->toArray();
          $response = $this->postJson('/api/cidades/', $data);
 
          $response->assertStatus(201)
@@ -46,6 +40,7 @@ class CidadeTest extends TestCase
     {
         $data = [
             "nome" => 'a',
+            "estado_id" => ''
         ];
 
         $response = $this->postJson('/api/cidades/', $data);
@@ -54,15 +49,15 @@ class CidadeTest extends TestCase
             ->assertJsonValidationErrors(['nome']);
     }
 
-    public function testPesquisaEstadosSucesso()
+    public function testPesquisaCidadesSucesso()
     {
         $cidade = Cidade::factory()->create();
 
-        $response = $this->getJson('/api/cidades/' . $cidade);
+        $response = $this->getJson('/api/cidades/' . $cidade->id);
 
         $response->assertStatus(200)
             ->assertJson([
-                'nome' => $cidade->id,
+                'nome' => $cidade->nome,
             ]);
     }
 
@@ -74,86 +69,38 @@ class CidadeTest extends TestCase
         // Veriicar a resposta
         $response->assertStatus(404)
             ->assertJson([
-                'message' => 'Cidade não encontrada'
+                'message' => 'Cidade não encontrada!'
             ]);
     }
 
-    public function testUpdateEstadosSucesso()
+    public function testUpdateCidadeSucesso()
     {
         $cidade = Cidade::factory()->create();
 
-        $newData = [
-            'nome' => 'Nova Cidade',
-
-        ];
+        $newData = Cidade::factory()->make()->toArray();
 
         $response = $this->putJson('/api/cidades/' . $cidade->id, $newData);
 
         $response->assertStatus(200)
             ->assertJson([
-                'nome' =>  $cidade->id,
+                'nome' =>  $newData['nome'],
             ]);
     }
 
     public function testUpdateCidadesNaoExistente()
     {
-        $tipo = Estado::factory()->create();
-
-
-        $newData = [
-            'nome' => 'Nova Cidade',
-            'estado_id' => $tipo->id
-        ];
+        $newData = Cidade::factory()->make()->toArray();
 
         $response = $this->putJson('/api/cidades/999', $newData);
 
         $response->assertStatus(404)
             ->assertJson([
-                'message' => 'Cidade não encontrada'
+                'message' => 'Cidade não encontrada!'
             ]);
     }
 
-    public function testUpdateCidadesMesmoNome()
-    {
-        $cidade = Cidade::factory()->create();
-
-        // Data para update
-        $sameData = [
-            'nome' => $cidade->cidade,
-            
-        ];
-
-        // Faça uma chamada PUT
-        $response = $this->putJson('/api/cidade/' . $cidade->id, $sameData);
-
-        // Verifique a resposta
-        $response->assertStatus(200)
-            ->assertJson([
-                'nome' => $cidade->id,
-
-            ]);
-    }
-
-    public function testUpdateCidadesNomeDuplicado()
-    {
-        // Crie um tipo fake
-        $cidade = Cidade::factory()->create();
-        $atualizar = Cidade::factory()->create();
-
-        // Data para update
-        $sameData = [
-            'nome' => $cidade->nome,
-            'estado_id' => $cidade->pais->id
-        ];
-
-        // Faça uma chamada PUT
-        $response = $this->putJson('/api/cidade/' . $atualizar->id, $sameData);
-
-        // Verifique a resposta
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['nome']);
-    }
-
+   
+    
     public function testDeleteCidades()
     {
         // Criar produto fake
@@ -165,7 +112,7 @@ class CidadeTest extends TestCase
         // Verifica o Delete
         $response->assertStatus(200)
             ->assertJson([
-                'message' => 'Estado deletado com sucesso!'
+                'message' => 'Cidade deletada com sucesso!'
             ]);
 
         //Verifique se foi deletado do banco

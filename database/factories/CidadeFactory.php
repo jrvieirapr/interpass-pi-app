@@ -18,8 +18,10 @@ class CidadeFactory extends Factory
     public function definition(): array
     {
         return [
-            'nome' => $this->faker->city,
-            'estado_id' => Estado::factory()->create()->id,
+            'nome' => $this->faker->unique()->city(),
+            'estado_id' => function(){
+                return Estado::factory()->create()->id;
+            }
         ];
     }
 }

@@ -16,4 +16,12 @@ class Cidade extends Model
         return $this->belongsTo(Estado::class);
     }
 
+    public function cidades(){
+        return $this->hasMany(Cidade::class);
+    }
+
+    public function eventos(){
+        return $this->hasMany(Evento::class);
+    }
+
 }
