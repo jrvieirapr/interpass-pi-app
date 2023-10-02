@@ -18,7 +18,7 @@ class ClienteFactory extends Factory
     {
         $sexo = ['M','F'];
         return [
-            'nomeCliente' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+            'nomeCliente' => "" . $this->faker->unique()->name,
             'idade' => $this->faker->numberBetween($int = 0, $int2 = 99999),
             'sexo' => $sexo[$this->faker->numberBetween($int = 0, $int2 = 1)],
             'rgIE' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
