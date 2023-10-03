@@ -14,7 +14,7 @@ class PaisTest extends TestCase
 
     public function testListarTodosPaises()
     {
-        Pais::factory()->count(5)->create();
+        $paises = Pais::factory()->count(5)->create();
 
         $response = $this->getJson('/api/paises/');
 

@@ -14,6 +14,8 @@ class PaisController extends Controller
     public function index()
     {
         $paises = Pais::all();
+
+
         return response()->json(['data' => $paises]);
     }
 

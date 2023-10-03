@@ -8,6 +8,9 @@ use Tests\TestCase;
 
 class IngressoTest extends TestCase
 {
+    use RefreshDatabase, WithFaker;
+
+    
     /**
      * A basic feature test example.
      */
