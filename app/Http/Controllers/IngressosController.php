@@ -41,7 +41,7 @@ class IngressosController extends Controller
         $ingresso = Ingressos::find($id);
 
         if (!$ingresso) {
-            return response()->json(['message' => 'Ingressos não encontrado'], 404);
+            return response()->json(['message' => 'Ingressos não encontrado!'], 404);
         }
 
         return response()->json($ingresso);
@@ -56,7 +56,7 @@ class IngressosController extends Controller
         $ingresso = Ingressos::find($id);
 
         if (!$ingresso) {
-            return response()->json(['message' => 'Ingressos não encontrado'], 404);
+            return response()->json(['message' => 'Ingressos não encontrado!'], 404);
         }
 
         // Faça o update do ingresso
@@ -73,17 +73,17 @@ class IngressosController extends Controller
     {
         // Encontre um ingresso pelo id
         $ingresso = Ingressos::find($id);
- 
+
         if (!$ingresso) {
             return response()->json(['message' => 'Ingressos não encontrado!'], 404);
-        }  
- 
+        }
+
         //Se tiver dependentes deve retornar erro
 
 
-  
+
         $ingresso->delete();
- 
+
         return response()->json(['message' => 'Ingressos deletado com sucesso!'], 200);
-     }
+    }
 }

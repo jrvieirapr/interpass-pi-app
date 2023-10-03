@@ -22,12 +22,12 @@ class StoreIngressosRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "chaveIngresso" =>  'required|unique:ingressos,chaveIngresso',
-            "evento_id" =>  'required|exists:eventos,id',
-            "dataEmissao" =>  'required|date',
-            "cliente_id" =>  'required|exists:clientes,id',
-            "metodoPagamento" =>  'required|unique:ingressos,metodoPagamento',
-            "valorCompra" => 'required|numeric',
+            'chaveIngresso' => 'required|string|unique:ingressos,chaveIngresso',
+            'evento_id' => 'required|exists:eventos,id',
+            'dataEmissao' => 'required|date',
+            'cliente_id' => 'required|exists:clientes,id',
+            'metodoPagamento' => 'required|string',
+            'valorCompra' => 'required|numeric',
         ];
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('dataEvento');
             $table->string('localEvento');
             $table->integer('qtIngresso');
+            $table->unsignedBigInteger('cidade_id');
+            $table->foreign('cidade_id')->references('id')->on('cidades');
             $table->timestamps();
         });
     }

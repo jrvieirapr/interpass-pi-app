@@ -19,15 +19,15 @@ class IngressosFactory extends Factory
     public function definition(): array
     {
         return [
-            'chaveIngresso' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+            'chaveIngresso' => (string) $this->faker->unique()->randomNumber(6),
             'evento_id' => function () {
                 return Evento::factory()->create()->id;
             },
-            'dataEmissao' => $this->faker->date(),
+            'dataEmissao' => $this->faker->date,
             'cliente_id' => function () {
                 return Cliente::factory()->create()->id;
             },
-            'metodoPagamento' => "" . $this->faker->word . " " . $this->faker->numberBetween($int1 = 0, $int2 = 99999),
+            'metodoPagamento' => $this->faker->randomElement(['Cartão de Crédito', 'Boleto', 'Transferência']),
             'valorCompra' => $this->faker->randomFloat(2, 10, 1000),
         ];
     }

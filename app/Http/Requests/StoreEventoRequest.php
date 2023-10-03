@@ -26,6 +26,7 @@ class StoreEventoRequest extends FormRequest
             "dataEvento" =>  'required|date',
             "localEvento" =>  'required|unique:eventos,localEvento',
             "qtIngresso" => 'required|numeric',
+            "cidade_id" => "required|exists:cidades,id"
         ];
     }
 }

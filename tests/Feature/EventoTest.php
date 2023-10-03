@@ -12,26 +12,77 @@ class EventoTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    /**Listar todos os eventos
-     * @return void
-     */
-
-    public function testListarTodosEventos()
+    public function test_it_can_list_all_events()
     {
-        //Criar 5 eventos
-        //Salvar Temporario
         Evento::factory()->count(5)->create();
 
-        // usar metodo GET para verificar o retorno
         $response = $this->getJson('/api/eventos');
 
-        //Testar ou verificar saida
         $response->assertStatus(200)
-            ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'created_at', 'updated_at']
+                    '*' => ['id', 'nomeEvento', 'dataEvento', 'localEvento', 'qtIngresso', 'cidade_id', 'created_at', 'updated_at']
                 ]
             ]);
+    }
+
+    public function test_it_can_create_an_event()
+    {
+        $data = Evento::factory()->make()->toArray();
+
+        $response = $this->postJson('/api/eventos', $data);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure(['id', 'nomeEvento', 'dataEvento', 'localEvento', 'qtIngresso', 'cidade_id', 'created_at', 'updated_at']);
+    }
+
+    public function test_it_can_show_an_event()
+    {
+        $evento = Evento::factory()->create();
+
+        $response = $this->getJson('/api/eventos/' . $evento->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'id' => $evento->id,
+                'nomeEvento' => $evento->nomeEvento,
+                'dataEvento' => $evento->dataEvento,
+                'localEvento' => $evento->localEvento,
+                'qtIngresso' => $evento->qtIngresso,
+                'cidade_id' => $evento->cidade_id,
+            ]);
+    }
+
+    public function test_it_can_update_an_event()
+    {
+        $evento = Evento::factory()->create();
+
+        $newData = Evento::factory()->make()->toArray();
+
+        $response = $this->putJson('/api/eventos/' . $evento->id, $newData);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'id' => $evento->id,
+                'nomeEvento' => $newData['nomeEvento'],
+                'dataEvento' => $newData['dataEvento'],
+                'localEvento' => $newData['localEvento'],
+                'qtIngresso' => $newData['qtIngresso'],
+                'cidade_id' => $newData['cidade_id'],
+            ]);
+    }
+
+    public function test_it_can_delete_an_event()
+    {
+        $evento = Evento::factory()->create();
+
+        $response = $this->deleteJson('/api/eventos/' . $evento->id);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Evento deletado com sucesso!'
+            ]);
+
+        $this->assertDatabaseMissing('eventos', ['id' => $evento->id]);
     }
 }

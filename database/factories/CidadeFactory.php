@@ -19,7 +19,7 @@ class CidadeFactory extends Factory
     {
         return [
             'nome' => $this->faker->unique()->city(),
-            'estado_id' => function(){
+            'estado_id' => function () {
                 return Estado::factory()->create()->id;
             }
         ];
